@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import geopandas as gpd
 import rasterio as rio
-from matplotlib import pyplot as plt
 from shapely.geometry import Point
 
 from scipy.spatial import cKDTree
