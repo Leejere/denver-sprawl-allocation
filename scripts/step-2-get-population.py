@@ -69,5 +69,6 @@ for year, dataset in datasets.items():
         )
         print(f"Finished {year} {county}")
 
+
 population_2010.to_file("data/population/2010.geojson", driver="GeoJSON")
 population_2020.to_file("data/population/2020.geojson", driver="GeoJSON")
