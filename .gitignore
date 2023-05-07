@@ -1,5 +1,6 @@
 env/
 **/test.ipynb
 **/colorado-highways.geojson
-data/population/*.geojson
 bfg.jar
+*.git
+data/population
