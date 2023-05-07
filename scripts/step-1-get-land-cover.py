@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import geopandas as gpd
 import rasterio as rio
-from shapely.geometry import shape
 from shapely.geometry import Polygon, Point
 
 crs = "EPSG:2232"
@@ -65,8 +64,24 @@ fishnet = gpd.sjoin(fishnet, points_2019, how="left", predicate="contains").drop
 )
 
 developed = [21, 22, 23, 24]
+land_covers = {
+    "developed": [21, 22, 23, 24],
+    "forest": [41, 42, 43],
+    "farm": [81, 82],
+    "wetland": [90, 95],
+    "water": [11],
+}
 for year in [2009, 2019]:
+    # First update whether developed bool
     fishnet[f"developed_{year}"] = fishnet[f"land_cover_{year}"].isin(developed)
+
+    # Then update land cover
+    fishnet[f"land_cover_type_{year}"] = "other"
+    for land_cover, codes in land_covers.items():
+        fishnet.loc[
+            fishnet[f"land_cover_{year}"].isin(codes), f"land_cover_type_{year}"
+        ] = land_cover
+
     fishnet.drop(columns=[f"land_cover_{year}"], inplace=True)
 
 fishnet.to_file("data/fishnets/with_land_cover.geojson", driver="GeoJSON")
