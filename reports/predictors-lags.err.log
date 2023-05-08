@@ -1,0 +1,68 @@
+Traceback (most recent call last):
+  File "C:\Users\leeje\OneDrive\G-4\land-use-env-modeling\assignments\sprawl-allocation\env\Lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "C:\Users\leeje\OneDrive\G-4\land-use-env-modeling\assignments\sprawl-allocation\env\Lib\site-packages\nbclient\client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\leeje\OneDrive\G-4\land-use-env-modeling\assignments\sprawl-allocation\env\Lib\site-packages\jupyter_core\utils\__init__.py", line 166, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\leeje\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\leeje\OneDrive\G-4\land-use-env-modeling\assignments\sprawl-allocation\env\Lib\site-packages\nbclient\client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\leeje\OneDrive\G-4\land-use-env-modeling\assignments\sprawl-allocation\env\Lib\site-packages\nbclient\client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\leeje\OneDrive\G-4\land-use-env-modeling\assignments\sprawl-allocation\env\Lib\site-packages\nbclient\client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# The scripts in this section should be run in the environment dictated by requirements-pysal.txt
+import numpy as np
+import pandas as pd
+import geopandas as gpd
+from pysal.lib import weights
+
+crs = "EPSG:2232"
+
+# Read in the data where we left off last time
+fishnet = gpd.read_file("../data/fishnets/with_distance.geojson")
+fishnet.crs = crs
+
+def get_lag_developed(fishnet, to_lag_column, new_column_name):
+    w_queen = weights.Queen.from_dataframe(fishnet)
+    w_queen.transform = "r"
+
+    binary = fishnet[to_lag_column].astype(int)
+    lag = weights.lag_spatial(w_queen, binary)
+    fishnet[new_column_name] = lag
+    return fishnet
+
+for year in [2009, 2019]:
+    fishnet = get_lag_developed(
+        fishnet,
+        to_lag_column=f"developed_{year}",
+        new_column_name=f"lag_developed_{year}",
+    )
+
+for year in [2010, 2020]:
+    fishnet = get_lag_developed(
+        fishnet,
+        to_lag_column=f"population_{year}",
+        new_column_name=f"lag_population_{year}",
+    )
+------------------
+
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [1;32mIn[1], line 5[0m
+[0;32m      3[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
+[0;32m      4[0m [38;5;28;01mimport[39;00m [38;5;21;01mgeopandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mgpd[39;00m
+[1;32m----> 5[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpysal[39;00m[38;5;21;01m.[39;00m[38;5;21;01mlib[39;00m [38;5;28;01mimport[39;00m weights
+[0;32m      7[0m crs [38;5;241m=[39m [38;5;124m"[39m[38;5;124mEPSG:2232[39m[38;5;124m"[39m
+[0;32m      9[0m [38;5;66;03m# Read in the data where we left off last time[39;00m
+
+[1;31mModuleNotFoundError[0m: No module named 'pysal'
+
