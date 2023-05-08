@@ -1,5 +1,6 @@
-env/
+env-pysal/
 env-bare/
+env/
 **/test.ipynb
 **/colorado-highways.geojson
 bfg.jar
