@@ -1,4 +1,5 @@
 env/
+env-bare/
 **/test.ipynb
 **/colorado-highways.geojson
 bfg.jar
