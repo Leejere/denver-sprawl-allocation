@@ -23,19 +23,20 @@ def areal_interpolation(fishnet, block_population, population_column):
     )
 
     # Spatial join. This creates some divided fishnet cells
-    joined = gpd.sjoin(fishnet, block_population, how="left", predicate="intersects")
-    joined["intersected_area"] = joined.geometry.area
+    fishnet["fishnet_id"] = np.arange(len(fishnet))
+    overlay = gpd.overlay(fishnet, block_population, how="intersection")
+    overlay["intersected_area"] = overlay.geometry.area
 
     # Calculate the population in each (broken) cell
-    joined["intersected_population"] = joined["intersected_area"] * joined["density"]
-
-    joined.index.name = "fishnet_id"
+    overlay["intersected_population"] = overlay["intersected_area"] * overlay["density"]
 
     # Piece the cells back together
-    grouped = joined.groupby("fishnet_id")["intersected_population"].sum()
+    grouped = overlay.groupby("fishnet_id")["intersected_population"].sum()
     grouped.name = population_column
 
-    return fishnet.merge(grouped, left_index=True, right_index=True, how="left")
+    return fishnet.merge(
+        grouped, left_on="fishnet_id", right_index=True, how="left"
+    ).drop(columns=["fishnet_id"])
 
 
 fishnet_with_population = areal_interpolation(
