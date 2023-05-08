@@ -20,7 +20,7 @@ rail_stations = gpd.read_file(rail_stations_url).to_crs(crs)
 facilities_url = "https://services5.arcgis.com/1fZoXlzLW6FCIUcE/arcgis/rest/services/RTD_GIS_Current_Runboard/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson"
 facilities = gpd.read_file(facilities_url).to_crs(crs)
 
-rail_stations_future_url = "https://services5.arcgis.com/1fZoXlzLW6FCIUcE/arcgis/rest/services/RTD_GIS_Future_Runboard/FeatureServer/1/query?outFields=*&where=1%3D1&f=geojson"
+rail_stations_future_url = "data/other/rail_stations_new.shp"
 rail_stations_future = gpd.read_file(rail_stations_future_url).to_crs(crs)
 
 facilities_future_url = "https://services5.arcgis.com/1fZoXlzLW6FCIUcE/arcgis/rest/services/RTD_GIS_Future_Runboard/FeatureServer/0/query?outFields=*&where=1%3D1&f=geojson"
