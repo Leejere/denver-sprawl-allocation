@@ -8,3 +8,4 @@ chapters:
   - file: predictors
   - file: predictors-lags
   - file: model
+  - file: predict-future
