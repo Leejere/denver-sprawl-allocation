@@ -8,9 +8,11 @@
 
 ---
 
-## New Light Rail to Strasburg Will Likely Not Cause Significant Sprawl
+## **Subject**: New Light Rail to Strasburg Will Likely Not Cause Significant Sprawl
 
 ---
+
+Proposed Light Rail:
 
 ![New Rail Line](map.png)
 

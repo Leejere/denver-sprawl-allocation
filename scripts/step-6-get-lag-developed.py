@@ -26,4 +26,11 @@ for year in [2009, 2019]:
         new_column_name=f"lag_developed_{year}",
     )
 
+for year in [2010, 2020]:
+    fishnet = get_lag_developed(
+        fishnet,
+        to_lag_column=f"population_{year}",
+        new_column_name=f"lag_population_{year}",
+    )
+
 fishnet.to_file("data/fishnets/with_lag_developed.geojson", driver="GeoJSON")
